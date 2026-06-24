@@ -239,6 +239,10 @@ public class ArenaClass
         return price;
     }
 
+    public boolean shouldRestoreInventory() {
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null) return false;
@@ -273,6 +277,56 @@ public class ArenaClass
                     am.getPlugin().getLogger().severe("Failed to give " + p.getName() + " their own items: " + e.getMessage());
                 }
             }
+        }
+
+        @Override
+        public Location getClassChest() {
+            return null;
+        }
+
+        private void removeBannedItems(PlayerInventory inv) {
+            ItemStack[] contents = inv.getContents();
+            IntStream.range(0, contents.length)
+                .filter(i -> contents[i] != null)
+                .filter(i -> isBanned(contents[i].getType()))
+                .forEach(inv::clear);
+        }
+
+        private boolean isBanned(Material type) {
+            switch (type) {
+                case ENDER_PEARL:
+                case ENDER_CHEST:
+                case SHULKER_SHELL:
+                    return true;
+            }
+            return type.name().endsWith("SHULKER_BOX");
+        }
+    }
+
+    public static class BringItems extends ArenaClass {
+        private ArenaMaster am;
+
+        public BringItems(Thing price, boolean unbreakableWeapons, boolean unbreakableArmor, ArenaMaster am) {
+            super("Bring Items", price, unbreakableWeapons, unbreakableArmor);
+            this.am = am;
+        }
+
+        @Override
+        public void grantItems(Player p) {
+            Arena arena = am.getArenaWithPlayer(p);
+            if (arena != null) {
+                try {
+                    arena.getInventoryManager().equip(p);
+                    removeBannedItems(p.getInventory());
+                } catch (Exception e) {
+                    am.getPlugin().getLogger().severe("Failed to give " + p.getName() + " their own items: " + e.getMessage());
+                }
+            }
+        }
+
+        @Override
+        public boolean shouldRestoreInventory() {
+            return false;
         }
 
         @Override

@@ -7,8 +7,8 @@ public class ClassCountChart extends SimplePie {
 
     public ClassCountChart(MobArena plugin) {
         super("class_count", () -> {
-            // We don't count "My Items", so subtract 1
-            int count = plugin.getArenaMaster().getClasses().size() - 1;
+            // We don't count "My Items" or "Bring Items", so subtract 2
+            int count = plugin.getArenaMaster().getClasses().size() - 2;
             if (count < 10) {
                 return String.valueOf(count);
             }

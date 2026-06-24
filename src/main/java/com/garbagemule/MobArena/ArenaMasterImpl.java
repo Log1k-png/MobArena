@@ -331,6 +331,9 @@ public class ArenaMasterImpl implements ArenaMaster
 
         // Add a class for "my items"
         loadClass("My Items");
+
+        // Add a class for "bring items"
+        loadClass("Bring Items");
     }
 
     /**
@@ -347,6 +350,12 @@ public class ArenaMasterImpl implements ArenaMaster
                 ArenaClass myItems = new ArenaClass.MyItems(null, false, false, this);
                 classes.put(myItems.getSlug(), myItems);
                 return myItems;
+            }
+            // We may not have a class entry for Bring Items, but that's fine
+            if (classname.equals("Bring Items")) {
+                ArenaClass bringItems = new ArenaClass.BringItems(null, false, false, this);
+                classes.put(bringItems.getSlug(), bringItems);
+                return bringItems;
             }
             plugin.getLogger().severe("Failed to load class '" + classname + "'.");
             return null;
@@ -370,7 +379,9 @@ public class ArenaMasterImpl implements ArenaMaster
         // Create an ArenaClass with the config-file name.
         ArenaClass arenaClass = classname.equals("My Items")
             ? new ArenaClass.MyItems(price, weps, arms, this)
-            : new ArenaClass(classname, price, weps, arms);
+            : classname.equals("Bring Items")
+                ? new ArenaClass.BringItems(price, weps, arms, this)
+                : new ArenaClass(classname, price, weps, arms);
 
         // Load items
         loadClassItems(section, arenaClass);
