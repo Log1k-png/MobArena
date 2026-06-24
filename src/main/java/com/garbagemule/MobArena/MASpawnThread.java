@@ -157,6 +157,9 @@ public class MASpawnThread implements Runnable
             ArenaCompleteEvent complete = new ArenaCompleteEvent(arena);
             plugin.getServer().getPluginManager().callEvent(complete);
 
+            // Mark as victory so Bring Items players keep their items
+            arena.setVictory(true);
+
             // Then force leave everyone
             List<Player> players = new ArrayList<>(arena.getPlayersInArena());
             for (Player p : players) {

@@ -96,6 +96,10 @@ public interface Arena
 
     boolean shouldRestoreInventory(Player p);
 
+    boolean isVictory();
+
+    void setVictory(boolean victory);
+
     Set<Block> getBlocks();
 
     void addBlock(Block b);

@@ -147,6 +147,7 @@ public class ArenaImpl implements Arena
     // Actions
     private Map<Player, Step> histories;
     private Map<Player, Boolean> inventoryRestoreFlags;
+    private boolean victory;
     private StepFactory playerJoinArena;
     private StepFactory playerSpecArena;
 
@@ -422,6 +423,16 @@ public class ArenaImpl implements Arena
     public boolean shouldRestoreInventory(Player p) {
         Boolean flag = inventoryRestoreFlags.get(p);
         return flag == null || flag;
+    }
+
+    @Override
+    public boolean isVictory() {
+        return victory;
+    }
+
+    @Override
+    public void setVictory(boolean victory) {
+        this.victory = victory;
     }
 
     @Override
@@ -845,7 +856,9 @@ public class ArenaImpl implements Arena
         // Clear inventory if player is an arena player, and unmount
         if (arenaPlayers.contains(p)) {
             unmount(p);
-            clearInv(p);
+            if (!victory || shouldRestoreInventory(p)) {
+                clearInv(p);
+            }
         }
 
         removePermissionAttachments(p);
@@ -1444,6 +1457,7 @@ public class ArenaImpl implements Arena
         arenaPlayerMap.clear();
         lobbyPlayers.clear();
         readyPlayers.clear();
+        victory = false;
     }
 
 
