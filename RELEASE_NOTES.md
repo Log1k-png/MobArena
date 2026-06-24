@@ -103,7 +103,11 @@ New class that uses the player's inventory items but **does not restore them** o
 
 ### How it works
 - **My Items** (existing): Uses a copy of the player's inventory. Items are restored after the arena.
-- **Bring Items** (new): Uses the player's inventory items. Items are **not restored** after the arena — they are lost on death or exit.
+- **Bring Items** (new): Uses the player's inventory items. Items are **not restored** after the arena — they are lost on death or leaving.
+
+### Victory behavior
+- If the player **wins** the arena (completes the final wave), they **keep their items** from the arena.
+- If the player **dies** or **leaves** (abandons), their inventory is **cleared** (items are lost).
 
 ### Crash safety
 If the server crashes while a player is in the arena with the Bring Items class, their original inventory is still restored from the YAML backup file on reconnect.
