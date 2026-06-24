@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.garbagemule"
-version = "0.109"
+version = "0.110"
 
 repositories {
     mavenLocal()
@@ -56,7 +56,7 @@ tasks {
 
         relocate("org.bstats", "com.garbagemule.MobArena.metrics")
 
-        archiveBaseName = "MobArena"
+        archiveBaseName = "MobArena-Custom"
         archiveClassifier = ""
     }
 
