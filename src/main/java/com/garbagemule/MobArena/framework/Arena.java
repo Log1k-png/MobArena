@@ -94,6 +94,8 @@ public interface Arena
 
     ArenaPlayer getArenaPlayer(Player p);
 
+    boolean shouldRestoreInventory(Player p);
+
     Set<Block> getBlocks();
 
     void addBlock(Block b);

@@ -1,7 +1,5 @@
 package com.garbagemule.MobArena.steps;
 
-import com.garbagemule.MobArena.ArenaClass;
-import com.garbagemule.MobArena.ArenaPlayer;
 import com.garbagemule.MobArena.framework.Arena;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -35,10 +33,7 @@ class ClearInventory extends PlayerStep {
 
     @Override
     public void undo() {
-        ArenaPlayer ap = arena.getArenaPlayer(player);
-        ArenaClass ac = ap != null ? ap.getArenaClass() : null;
-
-        if (ac == null || ac.shouldRestoreInventory()) {
+        if (arena.shouldRestoreInventory(player)) {
             player.getInventory().setContents(contents);
         }
 

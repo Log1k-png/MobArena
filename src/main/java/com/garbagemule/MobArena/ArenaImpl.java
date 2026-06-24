@@ -146,6 +146,7 @@ public class ArenaImpl implements Arena
 
     // Actions
     private Map<Player, Step> histories;
+    private Map<Player, Boolean> inventoryRestoreFlags;
     private StepFactory playerJoinArena;
     private StepFactory playerSpecArena;
 
@@ -258,6 +259,7 @@ public class ArenaImpl implements Arena
 
         // Actions
         this.histories = new HashMap<>();
+        this.inventoryRestoreFlags = new HashMap<>();
         this.playerJoinArena = PlayerJoinArena.create(this);
         this.playerSpecArena = PlayerSpecArena.create(this);
 
@@ -414,6 +416,12 @@ public class ArenaImpl implements Arena
     @Override
     public ArenaPlayer getArenaPlayer(Player p) {
         return arenaPlayerMap.get(p);
+    }
+
+    @Override
+    public boolean shouldRestoreInventory(Player p) {
+        Boolean flag = inventoryRestoreFlags.get(p);
+        return flag == null || flag;
     }
 
     @Override
@@ -1164,6 +1172,7 @@ public class ArenaImpl implements Arena
         arenaPlayers.remove(p);
         lobbyPlayers.remove(p);
         arenaPlayerMap.remove(p);
+        inventoryRestoreFlags.remove(p);
 
         scoreboard.removePlayer(p);
     }
@@ -1204,6 +1213,7 @@ public class ArenaImpl implements Arena
         arenaClass.grantItems(p);
         arenaClass.grantPotionEffects(p);
         arenaClass.grantLobbyPermissions(p);
+        inventoryRestoreFlags.put(p, arenaClass.shouldRestoreInventory());
 
         if (arenaClass.hasUnbreakableWeapons()) {
             PlayerInventory inv = p.getInventory();
@@ -1313,6 +1323,7 @@ public class ArenaImpl implements Arena
 
         arenaClass.grantPotionEffects(p);
         arenaClass.grantLobbyPermissions(p);
+        inventoryRestoreFlags.put(p, arenaClass.shouldRestoreInventory());
 
         autoReady(p);
     }
