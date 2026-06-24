@@ -28,6 +28,7 @@ import com.garbagemule.MobArena.things.ThingManager;
 import com.garbagemule.MobArena.things.ThingPickerManager;
 import com.garbagemule.MobArena.util.config.ConfigUtils;
 import com.garbagemule.MobArena.waves.ability.AbilityManager;
+import com.garbagemule.MobArena.waves.MythicMobsBridge;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -50,6 +51,8 @@ public class MobArena extends JavaPlugin
     private ArenaMaster arenaMaster;
 
     private Finance finance;
+
+    private MythicMobsBridge mythicMobsBridge;
 
     private FileConfiguration config;
     private LoadsConfigFile loadsConfigFile;
@@ -110,6 +113,7 @@ public class MobArena extends JavaPlugin
             setupCommandHandler();
 
             setupBossAbilities();
+            setupMythicMobsBridge();
             setupListeners();
             setupMetrics();
         } catch (RuntimeException e) {
@@ -150,6 +154,11 @@ public class MobArena extends JavaPlugin
         AbilityManager.loadCustomAbilities(getDataFolder());
     }
 
+    private void setupMythicMobsBridge() {
+        mythicMobsBridge = MythicMobsBridge.init(getLogger());
+        mythicMobsBridge.registerMythicCreatures();
+    }
+
     private void setupListeners() {
         PluginManager pm = this.getServer().getPluginManager();
         pm.registerEvents(new MAGlobalListener(this, arenaMaster), this);
@@ -172,6 +181,7 @@ public class MobArena extends JavaPlugin
 
         try {
             reloadFinance();
+            reloadMythicMobsBridge();
             reloadConfig();
             reloadGlobalMessenger();
             reloadFormulaMacros();
@@ -190,6 +200,10 @@ public class MobArena extends JavaPlugin
 
     private void reloadFinance() {
         finance = FinanceFactory.create(getServer(), getLogger());
+    }
+
+    private void reloadMythicMobsBridge() {
+        mythicMobsBridge.registerMythicCreatures();
     }
 
     @Override

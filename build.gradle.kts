@@ -4,18 +4,20 @@ plugins {
 }
 
 group = "com.garbagemule"
-version = "0.110"
+version = "0.111"
 
 repositories {
     mavenLocal()
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://jitpack.io")
     maven("https://repo.maven.apache.org/maven2/")
+    maven("https://mvn.lumine.io/repository/maven-public/")
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
+    compileOnly("io.lumine:Mythic-Dist:5.7.2")
     api("org.bstats:bstats-bukkit:2.2.1")
 
     testImplementation("junit:junit:4.13.2")
@@ -25,8 +27,10 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 sourceSets {
