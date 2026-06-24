@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.garbagemule"
-version = "0.111"
+version = "0.112"
 
 repositories {
     mavenLocal()
@@ -18,6 +18,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("io.lumine:Mythic-Dist:5.7.2")
+    compileOnly("com.github.LoneDev6:api-itemsadder:3.6.1")
     api("org.bstats:bstats-bukkit:2.2.1")
 
     testImplementation("junit:junit:4.13.2")

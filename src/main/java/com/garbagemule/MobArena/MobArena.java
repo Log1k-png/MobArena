@@ -29,6 +29,7 @@ import com.garbagemule.MobArena.things.ThingPickerManager;
 import com.garbagemule.MobArena.util.config.ConfigUtils;
 import com.garbagemule.MobArena.waves.ability.AbilityManager;
 import com.garbagemule.MobArena.waves.MythicMobsBridge;
+import com.garbagemule.MobArena.things.ItemsAdderBridge;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -53,6 +54,8 @@ public class MobArena extends JavaPlugin
     private Finance finance;
 
     private MythicMobsBridge mythicMobsBridge;
+
+    private ItemsAdderBridge itemsAdderBridge;
 
     private FileConfiguration config;
     private LoadsConfigFile loadsConfigFile;
@@ -114,6 +117,7 @@ public class MobArena extends JavaPlugin
 
             setupBossAbilities();
             setupMythicMobsBridge();
+            setupItemsAdderBridge();
             setupListeners();
             setupMetrics();
         } catch (RuntimeException e) {
@@ -157,6 +161,11 @@ public class MobArena extends JavaPlugin
     private void setupMythicMobsBridge() {
         mythicMobsBridge = MythicMobsBridge.init(getLogger());
         mythicMobsBridge.registerMythicCreatures();
+    }
+
+    private void setupItemsAdderBridge() {
+        itemsAdderBridge = ItemsAdderBridge.init(getLogger());
+        itemsAdderBridge.register(thingman);
     }
 
     private void setupListeners() {
